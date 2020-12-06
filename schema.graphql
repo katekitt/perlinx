@@ -1,0 +1,99 @@
+type deposit @entity {
+  "Users deposits to platform"
+  id: ID!
+  "Deposit amount"
+  collateralAmount: BigInt!
+  "User performed deposit"
+  sponsor: sponsor!
+  "Deposit time"
+  depositTimestanp: BigInt!
+}
+
+type withdrawal @entity {
+  "Users withdrawals from platform"
+  id: ID!
+  "Withdrawal amount"
+  collateralAmount: BigInt!
+  "User performed withdrawal"
+  sponsor: sponsor!
+  "Withdrawal time"
+  withdrawlTimestamp: BigInt!
+}
+
+type redeem @entity {
+  "Positions redeems"
+  id: ID!
+  "Redeemed amount"
+  collateralAmount: BigInt!
+  "Redeemed token amount"
+  tokenAmount: BigInt!
+  "User performed redeem"
+  sponsor: sponsor!
+  "Redeem time"
+  redeemTimestamp: BigInt!
+}
+
+
+type liquidation @entity {
+  "Posotions liqidations"
+  id: ID!
+  "Liqidated collateral"
+  liquidatedCollateral: BigInt!
+  "Liquidation ID"
+  liquidationId: BigInt!
+  "Liquidation time"
+  liquidationTime: BigInt!
+  "User performed liquidation"
+  liquidator: sponsor!
+  "Liqidated user"
+  sponsor: sponsor!
+  "Locked collateral amount"
+  lockedCollateral: BigInt!
+  "Outstanding tokens amount"
+  tokensOutstanding: BigInt!
+}
+
+
+type platformStatus @entity {
+  "Overall platform statistics"
+  id: ID!
+  "Sponsors quantity"
+  sponsorsQuantity: BigInt!
+  "Deposits quantity"
+  depositsQuantity: BigInt!
+  "Withdrawls quantity"
+  withdrawlsQuantity: BigInt!
+  "Liqidations quantity"
+  liquidationsQuantity: BigInt!
+  "Current positions quantity"
+  positionsQuantity: BigInt!
+  "Amount of fees paid"
+  feesPaid: BigInt!
+  "Amount of collateral in positions"
+  collateralInPositionsAmount: BigInt!
+  "Tokens in positions"
+  tokensInPositionsAmount: BigInt!
+  "Redeems quantity"
+  redeemsQuantity: BigInt!
+}
+
+type sponsor @entity {
+  "Sponsor - platforms usser"
+  id: ID!
+  "If sponsor has position now"
+  hasPosition: Boolean!
+  "Collateral amount of positions"
+  collateralInPositionAmount:BigInt!
+  "Tokens amount in position"
+  tokenInPositionAmount:BigInt!
+  "Users liquidations"
+  liquidations: [liquidation!]! @derivedFrom(field: "sponsor")
+  "Liquidations performed by user"
+  performedLiquidations: [liquidation!]! @derivedFrom(field: "liquidator")
+  "Deposits performed by user"
+  deposits: [deposit!]! @derivedFrom(field: "sponsor")
+  "Withdrawals performed by user"
+  withdrawals: [withdrawal!]! @derivedFrom(field: "sponsor")
+  "Redeems performed by user"
+  redeems: [redeem!]! @derivedFrom(field: "sponsor")
+}
